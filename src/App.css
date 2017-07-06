@@ -20,13 +20,31 @@
   text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
 }
 
+.reviewBoard {
+  background-color: #656565;
+  float:right;
+  width: 80%;
+  margin:15px;
+}
+.avgRatings {
+  float:left;
+  margin-left: 15px;
+  margin-top:15px;
+  width: 15%;
+}
+
+.description{
+  background-color: #656565;
+  margin-top:15px;
+  margin-bottom:15px;
+  padding: 15px;
+}
 .App-intro {
   font-size: large;
 }
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 15%;
 }
 
 td, th {

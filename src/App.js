@@ -40,7 +40,10 @@ let ratings ={
     "general": 8.471
 };
 
+const reviewTable = {width:'100%'};
+
 class App extends Component {
+
 
     static contextTypes = {
         router: PropTypes.shape({
@@ -64,7 +67,6 @@ class App extends Component {
             }
         });
     }
-
   render() {
     return (
           <div className="App">
@@ -79,32 +81,83 @@ class App extends Component {
                       </Link>;
                   })}
               </nav>
-
-                  <p className="Description">
+              <div className="description">
+                  <p>
                       The Hoxton, Amsterdam<br/><br/>
 
-                      The Hoxton, Amsterdam opened its doors on Herengracht in 2015. Made up of 5 canal houses, the building was once home to the Mayor, way back in the 17th century. Now it houses 111 rooms spread across 5 floors with plenty of quirks including some monumental ceilings and lots of canal views – we're lucky enough to have canals on each side of the building. Downstairs, there's the restaurant, Lotti's; Up Top, our mezzanine coffee and cocktail den, lobby bar; and The Apartment, our meeting and event space, which doubles up as a home to Hoxtown.
+                      The Hoxton opened its doors on Herengracht in 2015. Made up of 5 canal houses, the building was once home to the Mayor, way back in the 17th century. Now it houses 111 rooms spread across 5 floors with plenty of quirks including some monumental ceilings and lots of canal views – we're lucky enough to have canals on each side of the building. Downstairs, there's the restaurant, Lotti's; Up Top, our mezzanine coffee and cocktail den, lobby bar; and The Apartment, our meeting and event space, which doubles up as a home to Hoxtown.
                   </p>
-              <table>
-                  <tr>
-                      <th>Ratings</th>
-                      <th/>
-                  </tr>
-                  <tr>
-                      <td>General</td><td>{ratings.general}</td>
-                  </tr>
-                  {Object.keys(ratings.result).map((rating) =>{
-                      if (ratings.result[rating] > 0) {
-                          return <tr>
-                              <td>{rating}</td>
-                              <td>{ratings.result[rating]}</td>
+              </div>
+              <div>
+                  <table className="avgRatings">
+                      <tr>
+                          <th>Ratings</th>
+                          <th/>
+                      </tr>
+                      <tr>
+                          <td>General</td><td>{ratings.general}</td>
+                      </tr>
+                      {Object.keys(ratings.result).map((rating) =>{
+                          if (ratings.result[rating] > 0) {
+                              return <tr>
+                                  <td>{rating}</td>
+                                  <td>{ratings.result[rating]}</td>
+                              </tr>
+                          } else {
+                              //return and empty because JSlint doesn't like it when an arrow function returns without a value.
+                              return undefined;
+                          }
+                      })}
+                  </table>
+                  <div className="reviewBoard">
+                      <table style={reviewTable}>
+                          <tr>
+                              <th>Most Recent</th>
                           </tr>
-                      } else {
-                          //return and empty because JSlint doesn't like it when an arrow function returns without a value.
-                          return undefined;
-                      }
-                  })}
-              </table>
+                          <tr>
+                              <td>
+                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                              </td>
+                              <td>
+                                  8
+                              </td>
+                              <td>
+                                  <Link key={'1'} to={`/review?id=12354`}>
+                                      See More
+                                  </Link>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                              </td>
+                              <td>
+                                  8
+                              </td>
+                              <td>
+                                  <Link key={'1'} to={`/review?id=12354`}>
+                                      See More
+                                  </Link>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                              </td>
+                              <td>
+                                  8
+                              </td>
+                              <td>
+                                  <Link key={'1'} to={`/review?id=12354`}>
+                                      See More
+                                  </Link>
+                              </td>
+                          </tr>
+
+
+                      </table>
+                  </div>
+              </div>
           </div>
     );
   }
