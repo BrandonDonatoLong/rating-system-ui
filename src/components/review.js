@@ -2,14 +2,13 @@
  * Created by Brandon on 7/6/2017.
  */
 import React, {Component} from 'react';
-import API from './static-data';
 import RatingTable from './rating-table';
 import createFragment from 'react-addons-create-fragment';
 
 export default class Review extends Component {
-    constructor(){
-        super();
-    };
+    // constructor(){
+    //     super();
+    // };
 
     render(){
         return <div className="reviewBoard">
