@@ -2,66 +2,99 @@
  * Created by Brandon on 7/6/2017.
  */
 import React, {Component} from 'react';
-import API from './static-data';
-import Review from "./review";
+import Static from './static-data';
+import API from './hotel-api';
+import Review from './review';
+import RatingTable from './rating-table';
 
 export default class ReviewSummary extends Component {
     constructor() {
         super();
-        this.reviewTable = {width:'100%'};
+        API.get('/getReviews').then((result => {
+            return this.setState({reviews:result.reviews});
+        }));
+        API.get('/reviewAverage').then((result => {
+            return this.setState({ratings:result});
+        }));
+
         this.state = {
-            data: null,
+            reviews: Static.reviews,
+            ratings: Static.ratings
         };
     }
 
-    async componentWillMount() {
-        // let data = await API.getRecent();
-        //
-        // this.setState({ data });
+    handleSortByChange(event){
+        console.log('reviews changed', event);
+        switch(event.target.value){
+            case 'Entry Date':
+                API.get('/reviewsByContributionDate').then((result => {
+                    return this.setState({reviews:result.reviews});
+                }));
+                break;
+            case 'Travel Date':
+
+                API.get('/reviewsByTravelDate').then((result => {
+                    return this.setState({reviews:result.reviews});
+                }));
+                break;
+            default:
+                console.log('DefaultSort');
+                API.get('/getReviews').then((result => {
+                    return this.setState({reviews:result.reviews});
+                }));
+                 break;
+        }
+    }
+    handlePartyTypeChange(event){
+        switch(event.target.value){
+            case 'All':
+                API.get('/getReviews').then((result => {
+                    return this.setState({reviews:result.reviews});
+                }));
+                API.get('/reviewAverage').then((result => {
+                    return this.setState({ratings:result});
+                }));
+
+                break;
+
+            default:
+                // this.setState({ratings:Static.averageReviews[event.target.value]});
+                let traveledWith = event.target.value;
+                API.get('/traveledWithAverage')
+                    .then((result)=> {
+                        return this.setState({ratings:result.result[traveledWith]});
+                    });
+                API.get('/reviewsByTraveledWith', '?traveledWith=' + traveledWith).then((result)=> {
+                    return this.setState({reviews:result.reviews});
+                });
+                break;
+        }
     }
 
     render() {
 
         return (
             <div>
-                <table className="avgRatings">
-                    <tr>
-                        <th>Ratings</th>
-                        <th/>
-                    </tr>
-                    <tr>
-                        <td>General</td><td>{API.ratings.general}</td>
-                    </tr>
-                    {Object.keys(API.ratings.result).map((rating) =>{
-                        if (API.ratings.result[rating] > 0) {
-                            return <tr>
-                                <td>{rating}</td>
-                                <td>{API.ratings.result[rating]}</td>
-                            </tr>
-                        } else {
-                            //return and empty because JSlint doesn't like it when an arrow function returns without a value.
-                            return undefined;
-                        }
-                    })}
-                </table>
-
-                <div style={{backgroundColor: "#aaaaaa", float:"left", marginLeft:"30px"}}>
-                <label className="App-intro">Sort by:</label><select className="App-intro">
-                    {API.sortBy.map(sortBy => {
-                        return <option value={sortBy}>
-                            {sortBy}
-                        </option>;
-                    })}
-                </select>
-                <label className="App-intro">Party Type:</label><select className="App-intro">
-                    {API.partyType.map(sortBy => {
-                        return <option value={sortBy}>
-                            {sortBy}
-                        </option>;
-                    })}
-                </select>
+                <div style={{width:'85%'}}>
+                    <RatingTable {...this.state.ratings}/>
                 </div>
-                {API.reviews.map((review, i ) => <Review key={i} {...review}/>)}
+                <div style={{backgroundColor: '#aaaaaa', float:'left', marginLeft:'30px'}}>
+                    <label className='App-intro'>Sort by:</label><select className='App-intro' onChange={this.handleSortByChange.bind(this)}>
+                        {Static.sortBy.map(sortBy => {
+                            return <option value={sortBy}>
+                                {sortBy}
+                            </option>;
+                        })}
+                    </select>
+                    <label className='App-intro'>Party Type:</label><select className='App-intro' onChange={this.handlePartyTypeChange.bind(this)}>
+                        {Static.partyType.map(partyType => {
+                            return <option value={partyType}>
+                                {partyType}
+                            </option>;
+                        })}
+                    </select>
+                </div>
+                {this.state.reviews.map((review, i ) => <Review key={i} {...review}/>)}
 
 
             </div>

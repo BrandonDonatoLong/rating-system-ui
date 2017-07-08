@@ -6,7 +6,6 @@ let hotelTitle='The Hoxton';
 
 class App extends Component {
 
-
     static contextTypes = {
         router: PropTypes.shape({
             route: PropTypes.shape({
