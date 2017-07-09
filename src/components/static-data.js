@@ -21,7 +21,7 @@ export default class API {
 
         static ratingsByTraveledWith={
 
-        }
+        };
 
         static ratings={
             "aspects": {
