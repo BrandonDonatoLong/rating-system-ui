@@ -11,17 +11,13 @@ import TraveledWithRatings from './traveled-with-table';
 export default class ReviewSummary extends Component {
     constructor() {
         super();
-        API.get('/getReviews').then((result => {
-            API.get('/reviewsByContributionDate').then((result => {
-                return this.setState({reviews:result.reviews});
-            }));
-        }));
-        API.get('/reviewAverage').then((result => {
+        API.get('/getReviews', '?sortBy=EntryDate').then(result => {
+            return this.setState({reviews:result.reviews});
+        });
+        API.get('/reviewAverage').then(result => {
             return this.setState({ratings:result});
-        }));
-        API.get('/traveledWithAverage')
-            .then((result)=> {
-
+        });
+        API.get('/traveledWithAverage').then((result)=> {
                 return this.setState({ratingsByTraveledWith:result.result});
             });
 
@@ -37,64 +33,41 @@ export default class ReviewSummary extends Component {
         this.setState({sort:event.target.value});
         switch(event.target.value){
             case 'Entry Date':
-                API.get('/reviewsByContributionDate').then((result => {
+                API.get('/reviewsByContributionDate').then(result => {
                     return this.setState({reviews:result.reviews});
-                }));
+                });
                 break;
             case 'Travel Date':
-
-                API.get('/reviewsByTravelDate').then((result => {
+                API.get('/reviewsByTravelDate').then(result => {
                     return this.setState({reviews:result.reviews});
-                }));
+                });
                 break;
             default:
-                API.get('/getReviews').then((result => {
+                API.get('/getReviews').then(result => {
                     return this.setState({reviews:result.reviews});
-                }));
+                });
                  break;
         }
     }
     handlePartyTypeChange(event){
         switch(event.target.value){
             case 'All':
-                API.get('/getReviews').then((totalReviews) => {
-                    if (this.state.sort === 'Travel Date'){
-                        API.get('/reviewsByTravelDate').then((result)=> {
-                            return this.setState({reviews:result.reviews});
-                        });
-                    }
-                    else {
-                        API.get('/reviewsByContributionDate').then((result)=> {
-                            return this.setState({reviews:result.reviews});
-                        });
-                    }
+                API.get('/getReviews', '?sortBy=' + this.state.sort.replace(' ', '')).then(totalReviews => {
+                    return this.setState({reviews:totalReviews.reviews});
                 });
-                API.get('/traveled')
-                API.get('/reviewAverage').then((result => {
+                API.get('/reviewAverage').then(result => {
                     return this.setState({ratings:result});
-                }));
+                });
 
                 break;
-
             default:
                 // this.setState({ratings:Static.averageReviews[event.target.value]});
                 let traveledWith = event.target.value;
-                API.get('/traveledWithAverage')
-                    .then((result)=> {
-
+                API.get('/traveledWithAverage').then(result=> {
                         return this.setState({ratings:result.result[traveledWith], ratingsByTraveledWith:result.result});
                     });
-                API.get('/reviewsByTraveledWith', '?traveledWith=' + traveledWith).then((result)=> {
-                    if (this.state.sort === 'Travel Date'){
-                        API.get('/reviewsByTravelDate').then((result)=> {
-                            return this.setState({reviews:result.reviews});
-                        });
-                    }
-                    else {
-                        API.get('/reviewsByContributionDate').then((result)=> {
-                            return this.setState({reviews:result.reviews});
-                        });
-                    }
+                API.get('/reviewsByTraveledWith', '?traveledWith=' + traveledWith + '&sortBy=' + this.state.sort.replace(' ','')).then(result=> {
+                        return this.setState({reviews:result.reviews});
                 });
                 break;
         }
