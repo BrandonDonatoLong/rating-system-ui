@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-This is a simple project to play around with react. It uses create-react-app for the framework and boiler plate.
+This is a simple project to create a react ui and tie it to a backend written with node and express.
 
 # Companion Project
 This project is designed to work with a companion project that is the backend. The backend does all the filtering, 
@@ -19,7 +19,7 @@ The overall Javascript is ES6 (ECMA2015)
 There is some webpack and all of it is wrapped into NPM Scripts that use react-scripts to facilitate spinning up 
 a webserver and hosting all the files locally. 
 
-This project was developed and tested using JetBrains Webstorm IDE node version 6.10.2 and npm version 3.10.10
+This project was developed and tested using JetBrains Webstorm IDE and node version 6.10.2 and npm version 3.10.10
 
 # Instructions to install
 
