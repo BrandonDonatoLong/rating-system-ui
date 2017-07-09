@@ -3,8 +3,6 @@
  */
 import React, {Component} from 'react';
 
-//todo pass in the style as a prop
-
 function getGeneralBackgroundColor(rating){
     if (rating > 7){
         return '#2e8d00';
@@ -14,16 +12,12 @@ function getGeneralBackgroundColor(rating){
     else {
         return '#db3a26'
     }
-};
+}
 
 export default class RatingTable extends Component {
-    // constructor(){
-    //     super();
-    // };
-
     render(){
-        return <div className="ratingTable">
-            <table className="reviewRatings">
+        return <div className='ratingTable'>
+            <table className='reviewRatings'>
                 <tr>
                     <th>Ratings</th>
                     <th/>
@@ -38,7 +32,6 @@ export default class RatingTable extends Component {
                             <td>{this.props.aspects[rating]}</td>
                         </tr>
                     } else {
-                        //return and empty because JSlint doesn't like it when an arrow function returns without a value.
                         return undefined;
                     }
                 })}

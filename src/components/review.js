@@ -6,15 +6,11 @@ import RatingTable from './rating-table';
 import createFragment from 'react-addons-create-fragment';
 
 export default class Review extends Component {
-    // constructor(){
-    //     super();
-    // };
-
     render(){
-        return <div className="reviewBoard">
-            <RatingTable className="reviewRatings" {...this.props.ratings}/>
+        return <div className='reviewBoard'>
+            <RatingTable className='reviewRatings' {...this.props.ratings}/>
             {Object.keys(this.props.texts).map((language) =>{
-                return <div style={{textAlign:"left", margin:"10px"}}>
+                return <div style={{textAlign:'left', margin:'10px'}}>
                     <label ><strong>Language:</strong> {language}</label>
                     <label><strong> Title:</strong> {this.props.titles[language]}</label>
                     <p>
@@ -22,7 +18,7 @@ export default class Review extends Component {
                     </p>
                 </div>;
             })}
-            <div style={{backgroundColor:"#aaaaaa", textAlign:"left"}}>Review by {this.props.user} on {createFragment(new Date(this.props.entryDate).toString())}</div>
+            <div style={{backgroundColor:'#aaaaaa', textAlign:'left'}}>User <strong>{this.props.user}</strong> traveled with <strong>{this.props.traveledWith.toLowerCase()}</strong> on <strong>{createFragment(new Date(this.props.travelDate).toDateString())}</strong> and submitted review at <strong>{createFragment(new Date(this.props.entryDate).toString())}</strong></div>
         </div>
     };
 }

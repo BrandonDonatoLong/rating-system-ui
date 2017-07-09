@@ -6,25 +6,35 @@ import Static from './static-data';
 import API from './hotel-api';
 import Review from './review';
 import RatingTable from './rating-table';
+import TraveledWithRatings from './traveled-with-table';
 
 export default class ReviewSummary extends Component {
     constructor() {
         super();
         API.get('/getReviews').then((result => {
-            return this.setState({reviews:result.reviews});
+            API.get('/reviewsByContributionDate').then((result => {
+                return this.setState({reviews:result.reviews});
+            }));
         }));
         API.get('/reviewAverage').then((result => {
             return this.setState({ratings:result});
         }));
+        API.get('/traveledWithAverage')
+            .then((result)=> {
+
+                return this.setState({ratingsByTraveledWith:result.result});
+            });
 
         this.state = {
+            sort:'Entry Date',
+            ratingsByTraveledWith:Static.ratingsByTraveledWith,
             reviews: Static.reviews,
             ratings: Static.ratings
         };
     }
 
     handleSortByChange(event){
-        console.log('reviews changed', event);
+        this.setState({sort:event.target.value});
         switch(event.target.value){
             case 'Entry Date':
                 API.get('/reviewsByContributionDate').then((result => {
@@ -38,7 +48,6 @@ export default class ReviewSummary extends Component {
                 }));
                 break;
             default:
-                console.log('DefaultSort');
                 API.get('/getReviews').then((result => {
                     return this.setState({reviews:result.reviews});
                 }));
@@ -48,9 +57,19 @@ export default class ReviewSummary extends Component {
     handlePartyTypeChange(event){
         switch(event.target.value){
             case 'All':
-                API.get('/getReviews').then((result => {
-                    return this.setState({reviews:result.reviews});
-                }));
+                API.get('/getReviews').then((totalReviews) => {
+                    if (this.state.sort === 'Travel Date'){
+                        API.get('/reviewsByTravelDate').then((result)=> {
+                            return this.setState({reviews:result.reviews});
+                        });
+                    }
+                    else {
+                        API.get('/reviewsByContributionDate').then((result)=> {
+                            return this.setState({reviews:result.reviews});
+                        });
+                    }
+                });
+                API.get('/traveled')
                 API.get('/reviewAverage').then((result => {
                     return this.setState({ratings:result});
                 }));
@@ -62,14 +81,24 @@ export default class ReviewSummary extends Component {
                 let traveledWith = event.target.value;
                 API.get('/traveledWithAverage')
                     .then((result)=> {
-                        return this.setState({ratings:result.result[traveledWith]});
+
+                        return this.setState({ratings:result.result[traveledWith], ratingsByTraveledWith:result});
                     });
                 API.get('/reviewsByTraveledWith', '?traveledWith=' + traveledWith).then((result)=> {
-                    return this.setState({reviews:result.reviews});
+                    if (this.state.sort === 'Travel Date'){
+                        API.get('/reviewsByTravelDate').then((result)=> {
+                            return this.setState({reviews:result.reviews});
+                        });
+                    }
+                    else {
+                        API.get('/reviewsByContributionDate').then((result)=> {
+                            return this.setState({reviews:result.reviews});
+                        });
+                    }
                 });
                 break;
         }
-    }
+    };
 
     render() {
 
@@ -94,9 +123,8 @@ export default class ReviewSummary extends Component {
                         })}
                     </select>
                 </div>
+                <TraveledWithRatings {...this.state.ratingsByTraveledWith} />
                 {this.state.reviews.map((review, i ) => <Review key={i} {...review}/>)}
-
-
             </div>
         );
     }

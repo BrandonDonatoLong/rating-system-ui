@@ -13,5 +13,5 @@ export default class API {
             .catch((error) => {
                 console.error(error);
             });
-    }
+    };
 };
