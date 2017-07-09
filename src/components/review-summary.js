@@ -82,7 +82,7 @@ export default class ReviewSummary extends Component {
                 API.get('/traveledWithAverage')
                     .then((result)=> {
 
-                        return this.setState({ratings:result.result[traveledWith], ratingsByTraveledWith:result});
+                        return this.setState({ratings:result.result[traveledWith], ratingsByTraveledWith:result.result});
                     });
                 API.get('/reviewsByTraveledWith', '?traveledWith=' + traveledWith).then((result)=> {
                     if (this.state.sort === 'Travel Date'){
@@ -107,6 +107,8 @@ export default class ReviewSummary extends Component {
                 <div style={{width:'85%'}}>
                     <RatingTable {...this.state.ratings}/>
                 </div>
+
+                <TraveledWithRatings {...this.state.ratingsByTraveledWith} />
                 <div style={{backgroundColor: '#aaaaaa', float:'left', marginLeft:'30px'}}>
                     <label className='App-intro'>Sort by:</label><select className='App-intro' onChange={this.handleSortByChange.bind(this)}>
                         {Static.sortBy.map(sortBy => {
@@ -123,7 +125,6 @@ export default class ReviewSummary extends Component {
                         })}
                     </select>
                 </div>
-                <TraveledWithRatings {...this.state.ratingsByTraveledWith} />
                 {this.state.reviews.map((review, i ) => <Review key={i} {...review}/>)}
             </div>
         );

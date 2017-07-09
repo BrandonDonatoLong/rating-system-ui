@@ -1,25 +1,16 @@
 /**
  * Created by Brandon on 7/8/2017.
  */
-
 import React, {Component} from 'react';
 
 export default class TraveledWithRatings extends Component {
     render(){
-        return <table>
-            <tr>
-                <th>
-                    Ratings By Traveled With
-                </th>
-                <th />
-            </tr>
+        return <div>
             {Object.keys(this.props).map(traveledWith=>{
-                return  <tr>
-                    <td>{traveledWith}</td>
-                    <td>{this.props[traveledWith]}</td>
-                </tr>
+                console.log(traveledWith, this.props[traveledWith]);
+                return <div className="travelWithRating" key={traveledWith}><label>{traveledWith}: </label>
+                    <label>{this.props[traveledWith].general.general}</label></div>
             })}
-        </table>
-
+        </div>
     };
 }

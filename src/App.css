@@ -42,6 +42,11 @@
   background: white;
 }
 
+.travelWithRating{
+  float:left;
+  width: 5%;
+}
+
 .description{
   background-color: #656565;
   margin-top:15px;
