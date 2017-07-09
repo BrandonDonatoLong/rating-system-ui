@@ -8,12 +8,33 @@ import Review from './review';
 import RatingTable from './rating-table';
 import TraveledWithRatings from './traveled-with-table';
 
+//These two functions I found on stack overflow to help with paging.
+Array.range = function(n) {
+    // Array.range(5) --> [0,1,2,3,4]
+    return Array.apply(null,Array(n)).map((x,i) => i)
+};
+// eslint-disable-next-line
+Object.defineProperty(Array.prototype, 'chunk', {
+    value: function(n) {
+        // ACTUAL CODE FOR CHUNKING ARRAY:
+        return Array.range(Math.ceil(this.length/n)).map((x,i) => this.slice(i*n,i*n+n));
+    }
+});
+
 //Review Summary component holds all the data handling with the backend and displays the reviews after the Description.
 export default class ReviewSummary extends Component {
     constructor() {
         super();
         API.get('/getReviews', '?sortBy=EntryDate').then(result => {
-            return this.setState({reviews:result.reviews});
+            let resultPages;
+            if (result.reviews.length > 10){
+                resultPages = result.reviews.chunk(10);
+            }
+            else{
+                resultPages = result.reviews;
+                return this.setState({allReviews:resultPages, pageSelected:0, reviews:resultPages, pageEnabled:false})
+            }
+            return this.setState({allReviews:resultPages, pageSelected:0, reviews:resultPages[0], pageEnabled:true});
         });
         API.get('/reviewAverage').then(result => {
             return this.setState({ratings:result});
@@ -24,6 +45,9 @@ export default class ReviewSummary extends Component {
 
         this.state = {
             sort:'Entry Date',
+            pageSelected:0,
+            pageEnabled:true,
+            allReviews:Static.reviews,
             ratingsByTraveledWith:Static.ratingsByTraveledWith,
             reviews: Static.reviews,
             ratings: Static.ratings
@@ -52,12 +76,32 @@ export default class ReviewSummary extends Component {
         }
     }
 
+    handleNextPage(){
+        if (this.state.pageEnabled && (this.state.pageSelected < this.state.allReviews.length-1)){
+            this.setState({reviews:this.state.allReviews[this.state.pageSelected+1], pageSelected:this.state.pageSelected + 1});
+        }
+    }
+    handlePrevPage(){
+        if (this.state.pageEnabled && (this.state.pageSelected !== 0)){
+            this.setState({reviews:this.state.allReviews[this.state.pageSelected-1], pageSelected:this.state.pageSelected-1});
+        }
+    }
+
     // Function to handle a change in the Party Type drop down.
     handlePartyTypeChange(event){
         switch(event.target.value){
             case 'All':
                 API.get('/getReviews', '?sortBy=' + this.state.sort.replace(' ', '')).then(totalReviews => {
-                    return this.setState({reviews:totalReviews.reviews});
+                    let resultPages;
+                    if (totalReviews.reviews.length > 10){
+                        resultPages = totalReviews.reviews.chunk(10);
+                    }
+                    else{
+                        resultPages = totalReviews.reviews;
+                        return this.setState({allReviews:resultPages, pageSelected:0, reviews:resultPages, pageEnabled:false});
+                    }
+
+                    return this.setState({allReviews:resultPages, pageSelected:0, reviews:resultPages[0], pageEnabled:true});
                 });
                 API.get('/reviewAverage').then(result => {
                     return this.setState({ratings:result});
@@ -70,7 +114,16 @@ export default class ReviewSummary extends Component {
                         return this.setState({ratings:result.result[traveledWith], ratingsByTraveledWith:result.result});
                     });
                 API.get('/reviewsByTraveledWith', '?traveledWith=' + traveledWith + '&sortBy=' + this.state.sort.replace(' ','')).then(result=> {
-                        return this.setState({reviews:result.reviews});
+                    let resultPages;
+                    if (result.reviews.length > 10){
+                        resultPages = result.reviews.chunk(10);
+                    }
+                    else{
+                        resultPages = result.reviews;
+                        return this.setState({allReviews:resultPages, pageSelected:0, reviews:resultPages, pageEnabled:false});
+                    }
+
+                    return this.setState({allReviews:resultPages, pageSelected:0, reviews:resultPages[0], pageEnabled:true});
                 });
                 break;
         }
@@ -103,6 +156,10 @@ export default class ReviewSummary extends Component {
                     </select>
                 </div>
                 {this.state.reviews.map((review, i ) => <Review key={i} {...review}/>)}
+
+                <button onClick={this.handlePrevPage.bind(this)}>Prev Page</button>
+                <button onClick={this.handleNextPage.bind(this)}>Next Page</button>
+
             </div>
         );
     }
