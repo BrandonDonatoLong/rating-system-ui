@@ -1,3 +1,5 @@
+#rating-system-ui
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 This is a simple project to play around with react. It uses create-react-app for the framework and boiler plate.
@@ -24,4 +26,4 @@ This project was developed and tested using JetBrains Webstorm IDE node version 
 1. Clone this repo
 2. Run `npm install` from the git root
 3. Run `npm run start` from the git root to start up the webserver
-4. The npm script should open up a browser and go to localhost:3000 this will point to The Hoxton Hotel page.
+4. The npm script should open up a browser and go to localhost:3000 this will point to The Hoxton Hotel page.****
