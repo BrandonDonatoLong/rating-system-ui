@@ -26,4 +26,10 @@ This project was developed and tested using JetBrains Webstorm IDE and node vers
 1. Clone this repo
 2. Run `npm install` from the git root
 3. Run `npm run start` from the git root to start up the webserver
-4. The npm script should open up a browser and go to localhost:3000 this will point to The Hoxton Hotel page. If you can open up a browser and go to localhost:3000 to load the page.
+4. The npm script should open up your default browser and go to localhost:3000 this will point to The Hoxton Hotel page. If you can open up a browser and go to localhost:3000 to load the page.
+
+# Troubleshooting
+
+1. Webpage loads and then displays an error page.
+
+    Fix: Check that the backend companion project is running. Right now there isn't as much error checking as I would like so if the backend is down the frontend doesn't have a catch all error page to tell the user the system has encountered an error.
