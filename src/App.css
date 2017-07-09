@@ -10,11 +10,11 @@
   background-color: #EDEDED;
   height: 150px;
   padding: 20px;
-  color: white;
+  color: lightcyan;
 }
 .Header-Title {
   font-size: 4em;
-  font-family:"Roboto";
+  font-family: Roboto, sans-serif;
   position: absolute;
   top: 46px;
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
