@@ -3,6 +3,7 @@
  */
 import React, {Component} from 'react';
 
+//Helper function that takes in an integer rating and return a background color.
 function getGeneralBackgroundColor(rating){
     if (rating > 7){
         return '#2e8d00';
@@ -13,7 +14,8 @@ function getGeneralBackgroundColor(rating){
         return '#db3a26'
     }
 }
-
+// Rating table class is used not only when creating the review element where it shows how each person rated the
+// property it also is used when displaying the averages with how the filter is applied to it.
 export default class RatingTable extends Component {
     render(){
         return <div className='ratingTable'>

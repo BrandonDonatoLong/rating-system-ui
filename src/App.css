@@ -17,11 +17,11 @@
   font-family:"Roboto";
   position: absolute;
   top: 46px;
-  text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
 
 .reviewBoard {
-  background-color: #656565;
+  background-color: #7b7b7b;
   float:left;
   width: 80%;
   margin-right:15px;
@@ -48,7 +48,7 @@
 }
 
 .description{
-  background-color: #656565;
+  background-color: #7b7b7b;
   margin-top:15px;
   margin-bottom:15px;
   padding: 15px;

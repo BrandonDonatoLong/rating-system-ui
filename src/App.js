@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReviewSummary from './components/review-summary';
 import './App.css';
-let hotelTitle='The Hoxton';
 
+let hotelTitle='The Hoxton, Amsterdam';
+
+// App is the top level component. This loads the Hotel name and description (right now not from the server) and then starts to render the review summary piece.
 class App extends Component {
 
+    // The contentTypes variable and componentWillMount function are boiler plate for <BrowserRoutes> component.
     static contextTypes = {
         router: PropTypes.shape({
             route: PropTypes.shape({

@@ -3,6 +3,7 @@
  */
 import React, {Component} from 'react';
 
+// TraveledWithRatings is a very simple component that displays the average general rating for each Party type.
 export default class TraveledWithRatings extends Component {
     render(){
         return <div>

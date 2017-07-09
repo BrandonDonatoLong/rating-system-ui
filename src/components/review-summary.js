@@ -8,6 +8,7 @@ import Review from './review';
 import RatingTable from './rating-table';
 import TraveledWithRatings from './traveled-with-table';
 
+//Review Summary component holds all the data handling with the backend and displays the reviews after the Description.
 export default class ReviewSummary extends Component {
     constructor() {
         super();
@@ -29,6 +30,7 @@ export default class ReviewSummary extends Component {
         };
     }
 
+    // Function to handle the change in the sort drop down.
     handleSortByChange(event){
         this.setState({sort:event.target.value});
         switch(event.target.value){
@@ -49,6 +51,8 @@ export default class ReviewSummary extends Component {
                  break;
         }
     }
+
+    // Function to handle a change in the Party Type drop down.
     handlePartyTypeChange(event){
         switch(event.target.value){
             case 'All':
@@ -61,7 +65,6 @@ export default class ReviewSummary extends Component {
 
                 break;
             default:
-                // this.setState({ratings:Static.averageReviews[event.target.value]});
                 let traveledWith = event.target.value;
                 API.get('/traveledWithAverage').then(result=> {
                         return this.setState({ratings:result.result[traveledWith], ratingsByTraveledWith:result.result});
@@ -73,6 +76,7 @@ export default class ReviewSummary extends Component {
         }
     };
 
+    // React render function to display all the elements and map the specific states to their specific props.
     render() {
 
         return (
