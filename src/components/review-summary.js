@@ -157,6 +157,7 @@ export default class ReviewSummary extends Component {
                 </div>
                 {this.state.reviews.map((review, i ) => <Review key={i} {...review}/>)}
 
+                <label>{this.state.pageSelected+1} /{this.state.allReviews.length} </label>
                 <button onClick={this.handlePrevPage.bind(this)}>Prev Page</button>
                 <button onClick={this.handleNextPage.bind(this)}>Next Page</button>
 
