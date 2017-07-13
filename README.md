@@ -33,3 +33,9 @@ This project was developed and tested using JetBrains Webstorm IDE and node vers
 1. Webpage loads and then displays an error page.
 
     Fix: Check that the backend companion project is running. Right now there isn't as much error checking as I would like so if the backend is down the frontend doesn't have a catch all error page to tell the user the system has encountered an error.
+    
+# Critiques:
+
+1. Too many calls to the backend
+2. The backend returns the entire review object when it doesn't need to. can be paired down.
+3. Some classes used where pure functions would be sufficient.
